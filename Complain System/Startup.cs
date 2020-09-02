@@ -6,6 +6,7 @@ using Complain_System.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,9 +26,17 @@ namespace Complain_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services 1: Configure database
             services.AddDbContext<ComplainDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                  options.UseSqlServer(
+                 Configuration.GetConnectionString("DefaultConnection")));
 
+            //services 2: Configure Authentication and Authorization
+            services.AddIdentity<AppUser, AppRole>(
+                options => options.Stores.MaxLengthForKeys = 128)
+                .AddEntityFrameworkStores<ComplainDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
         }
 

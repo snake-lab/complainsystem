@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Complain_System", "Complain System\Complain_System.csproj", "{945772B9-5436-4A5D-850C-89E6E6490F3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Complain_System", "Complain System\Complain_System.csproj", "{945772B9-5436-4A5D-850C-89E6E6490F3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compain_System.Shared", "Compain_System.Shared\Compain_System.Shared.csproj", "{57A11E6D-97B7-4BC7-98F3-85B8500CE1BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{945772B9-5436-4A5D-850C-89E6E6490F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{945772B9-5436-4A5D-850C-89E6E6490F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{945772B9-5436-4A5D-850C-89E6E6490F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57A11E6D-97B7-4BC7-98F3-85B8500CE1BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57A11E6D-97B7-4BC7-98F3-85B8500CE1BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57A11E6D-97B7-4BC7-98F3-85B8500CE1BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57A11E6D-97B7-4BC7-98F3-85B8500CE1BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
