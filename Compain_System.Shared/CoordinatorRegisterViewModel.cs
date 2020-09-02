@@ -11,7 +11,7 @@ namespace Compain_System.Shared
 
         [Required]
         [Display(Name = "Employee Id")]
-        public string EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
 
 
         [Required]
