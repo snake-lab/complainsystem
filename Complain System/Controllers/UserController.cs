@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Compain_System.Shared;
 using Complain_System.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace Complain_System.Controllers
 {
@@ -15,16 +16,19 @@ namespace Complain_System.Controllers
         private readonly SignInManager<AppUser> signInManager;
         private readonly RoleManager<AppRole> roleManager;
         private readonly ComplainDbContext context;
+        private readonly ILogger<UserController> logger;
 
         readonly string role1 = "student";
         readonly string role2 = "coordinator";
         readonly string role3 = "teacher";
 
-        public UserController(UserManager<AppUser> _userManager,SignInManager<AppUser> _signInManager,RoleManager<AppRole> _roleManager, ComplainDbContext _context){
+        public UserController(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, RoleManager<AppRole> _roleManager, ComplainDbContext _context, ILogger<UserController> _logger)
+        {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
             context = _context;
+            logger = _logger;
         }
         public IActionResult Index()
         {
@@ -41,7 +45,7 @@ namespace Complain_System.Controllers
             //TODO: Make user registration 
             if (ModelState.IsValid)
             {
-                
+
                 // Copy data from RegisterViewModel to IdentityUser
                 var user = new AppUser
                 {
@@ -89,5 +93,42 @@ namespace Complain_System.Controllers
 
             return View(model);
         }
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel Input)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                if (result.Succeeded)
+                {
+                    logger.LogInformation("User logged in.");
+
+                    // Login is successful here, so we return now and the execution stops, meaning the bottom code never runs.
+                    return RedirectToAction("index", "home");
+                }
+            }
+
+            // If we get to this line, either the MoxelState isn't valid or the login failed.
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            return RedirectToAction("Login", "User");
+        }
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await signInManager.SignOutAsync();
+            logger.LogInformation("User logged out.");
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("index", "home");
+            }
+        }
+
     }
 }
