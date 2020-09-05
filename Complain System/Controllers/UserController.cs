@@ -16,9 +16,9 @@ namespace Complain_System.Controllers
         private readonly RoleManager<AppRole> roleManager;
         private readonly ComplainDbContext context;
 
-        string role1 = "student";
-        string role2 = "coordinator";
-        string role3 = "teacher";
+        readonly string role1 = "student";
+        readonly string role2 = "coordinator";
+        readonly string role3 = "teacher";
 
         public UserController(UserManager<AppUser> _userManager,SignInManager<AppUser> _signInManager,RoleManager<AppRole> _roleManager, ComplainDbContext _context){
             userManager = _userManager;
@@ -30,6 +30,7 @@ namespace Complain_System.Controllers
         {
             return View();
         }
+        //HTTP GET
         public IActionResult Register()
         {
             return View();
@@ -46,8 +47,8 @@ namespace Complain_System.Controllers
                 {
                     Email = model.Email,
                     FullName = model.FullName,
-                    Mobile = model.Mobile
-
+                    Mobile = model.Mobile,
+                    UserName = model.Email
                 };
                 var employee = new Employee
                 {
@@ -58,14 +59,17 @@ namespace Complain_System.Controllers
 
                 // Store user data in AspNetUsers database table
                 var result = await userManager.CreateAsync(user, model.Password);
+
+                // Stores data in employee table
                 context.Add(employee);
                 await context.SaveChangesAsync();
                 // If user is successfully created, sign-in the user using
                 // SignInManager and redirect to index action of HomeController
                 if (result.Succeeded)
                 {
-
+                    // Automatic signin 
                     await signInManager.SignInAsync(user, isPersistent: false);
+                    //if the use has no role, give them Coordinator Role.
                     if (await roleManager.FindByNameAsync(role2) == null)
                     {
                         await roleManager.CreateAsync(new AppRole(role2));

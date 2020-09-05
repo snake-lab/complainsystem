@@ -9,12 +9,15 @@ namespace Complain_System.Models
 {
 
     public class ComplainDbContext : IdentityDbContext<AppUser, AppRole, string>
-{
-    public ComplainDbContext(DbContextOptions<ComplainDbContext> options) : base(options)
     {
+        public ComplainDbContext(DbContextOptions<ComplainDbContext> options) : base(options)
+        {
+
+        }
+        public DbSet<ComplainBox> ComplainBoxes { get; set; }
+        public DbSet<ComplainStatus> complainStatuses { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+
 
     }
-    //tables________________
-
-}
 }
