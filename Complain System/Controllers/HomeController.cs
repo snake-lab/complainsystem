@@ -22,10 +22,6 @@ namespace Complain_System.Controllers
         {
             return View();
         }
-        public IActionResult Susmita()
-        {
-            return View();
-        }
         public IActionResult Privacy()
         {
             return View();
