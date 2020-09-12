@@ -93,6 +93,60 @@ namespace Complain_System.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> StudentRegister(CoordinatorRegisterViewModel model)
+        {
+            //TODO: Make user registration 
+            if (ModelState.IsValid)
+            {
+
+                // Copy data from RegisterViewModel to IdentityUser
+                var user = new AppUser
+                {
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Mobile = model.Mobile,
+                    UserName = model.Email
+                };
+                var employee = new Employee
+                {
+                    EmployeeId = model.EmployeeId,
+                    EmployeeName = model.FullName,
+                    EmployeeRole = role1
+                };
+
+                // Store user data in AspNetUsers database table
+                var result = await userManager.CreateAsync(user, model.Password);
+
+                // Stores data in employee table
+                context.Add(employee);
+                await context.SaveChangesAsync();
+                // If user is successfully created, sign-in the user using
+                // SignInManager and redirect to index action of HomeController
+                if (result.Succeeded)
+                {
+                    // Automatic signin 
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    //if the use has no role, give them Coordinator Role.
+                    if (await roleManager.FindByNameAsync(role1) == null)
+                    {
+                        await roleManager.CreateAsync(new AppRole(role1));
+                    }
+                    await userManager.AddToRoleAsync(user, role1);
+
+                    return RedirectToAction("index", "home");
+                }
+
+                // If there are any errors, add them to the ModelState object
+                // which will be displayed by the validation summary tag helper
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
         public IActionResult Login()
         {
             return View();

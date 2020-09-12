@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Complain_System.Models;
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Westwind.AspNetCore.LiveReload;
 namespace Complain_System
 {
     public class Startup
@@ -26,6 +27,13 @@ namespace Complain_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddLiveReload(config =>
+            //{
+            //    //optional - use config instead;
+            //    config.LiveReloadEnabled = true;
+            //    //config.FolderToMonitor = Path.GetFullname(Path.Combine(Env.ContentRootPath, ".."));
+            //});
+
             //services 1: Configure database
             services.AddDbContext<ComplainDbContext>(options =>
                   options.UseSqlServer(
@@ -59,7 +67,7 @@ namespace Complain_System
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseLiveReload();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

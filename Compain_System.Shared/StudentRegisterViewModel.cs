@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Compain_System.Shared
 {
-    class StudentRegisterViewModel
+    public class StudentRegisterViewModel
     {
         [Required]
         [Display(Name = "Fullname")]
