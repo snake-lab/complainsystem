@@ -14,6 +14,8 @@ namespace Complain_System.Models
         {
 
         }
+        public DbSet<AppUser> AppUsers{ get; set; }
+        public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<ComplainBox> ComplainBoxes { get; set; }
         public DbSet<ComplainStatus> complainStatuses { get; set; }
         public DbSet<Employee> Employees { get; set; }

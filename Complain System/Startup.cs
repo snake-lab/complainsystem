@@ -27,10 +27,13 @@ namespace Complain_System
         public void ConfigureServices(IServiceCollection services)
         {
             //services 1: Configure database
+            //services.AddDbContext<ComplainDbContext>(options =>
+            //      options.UseSqlServer(
+            //     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ComplainDbContext>(options =>
-                  options.UseSqlServer(
-                 Configuration.GetConnectionString("DefaultConnection")));
-
+            {
+                options.UseSqlite("Data Source = complain.db");
+            });
             //services 2: Configure Authentication and Authorization
             services.AddIdentity<AppUser, AppRole>(
                 options => options.Stores.MaxLengthForKeys = 128)
